@@ -8,7 +8,7 @@ import Resources from "./Resources.js";
 import Renderer from "./Renderer.js";
 import Camera from "./Camera.js";
 import World from "./World.js";
-import GamePad from "./Gamepad.js";
+import Gamepad from "./Gamepad/Gamepad.js";
 
 import assets from "./assets.js";
 
@@ -33,7 +33,7 @@ export default class Experience {
         this.setRenderer();
         this.setResources();
         this.setWorld();
-        this.setGamePad();
+        this.setGamepad();
 
         this.sizes.on("resize", () => {
             this.resize();
@@ -98,8 +98,8 @@ export default class Experience {
         this.world = new World();
     }
 
-    setGamePad() {
-        this.gamePad = new GamePad();
+    setGamepad() {
+        this.gamepad = new Gamepad();
     }
 
     update() {
@@ -109,14 +109,14 @@ export default class Experience {
 
         if (this.world) this.world.update();
 
-        if (this.gamePad) {
-            this.gamePad.update();
+        if (this.gamepad) {
+            this.gamepad.update();
         }
 
         if (this.renderer) this.renderer.update();
 
         window.requestAnimationFrame(() => {
-            // this.update();
+            this.update();
         });
     }
 
