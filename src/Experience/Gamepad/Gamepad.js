@@ -1,6 +1,7 @@
-import EventEmitter from "../Utils/EventEmitter.js";
-import GamepadButton from "./GamepadButton.js";
+import EventEmitter from "../Utils/EventEmitter";
+import GamepadButton from "./GamepadButton";
 import GamepadJoystick from "./GamepadJoystick";
+import GamepadInterface from "./GamepadInterface";
 
 export default class Gamepad extends EventEmitter {
     constructor() {
@@ -11,6 +12,7 @@ export default class Gamepad extends EventEmitter {
 
         this.setConnection();
         this.setInputs();
+        this.setInterface();
     }
 
     setConnection() {
@@ -96,6 +98,10 @@ export default class Gamepad extends EventEmitter {
                 });
             }
         }
+    }
+
+    setInterface() {
+        this.interface = new GamepadInterface(this.inputs);
     }
 
     update() {
