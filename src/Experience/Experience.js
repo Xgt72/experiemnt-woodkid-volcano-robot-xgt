@@ -100,6 +100,16 @@ export default class Experience {
 
     setGamepad() {
         this.gamepad = new Gamepad();
+
+        this.gamepad.inputs.buttonA.on("pressed", () => {
+            console.log("yup");
+        });
+
+        // this.gamepad.on("joystickChanged", (_name) => {
+        //     if (_name === "joystickLeft") {
+        //         console.log("Mover Robot");
+        //     }
+        // });
     }
 
     update() {

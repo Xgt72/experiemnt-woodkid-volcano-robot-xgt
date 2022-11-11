@@ -10,73 +10,7 @@ export default class Gamepad extends EventEmitter {
         this.connected = false;
 
         this.setConnection();
-        this.setMapping();
-    }
-
-    setMapping() {
-        this.mapping = {};
-
-        /**
-         * Buttons
-         */
-        this.mapping.buttons = {};
-
-        // Left buttons
-        this.mapping.buttons.a = new GamepadButton(0, "A");
-        this.mapping.buttons.b = new GamepadButton(1, "B");
-        this.mapping.buttons.x = new GamepadButton(2, "X");
-        this.mapping.buttons.y = new GamepadButton(3, "Y");
-
-        // Back buttons
-        this.mapping.buttons.leftButton = new GamepadButton(4, "LB");
-        this.mapping.buttons.rightButton = new GamepadButton(5, "RB");
-        this.mapping.buttons.leftTrigger = new GamepadButton(6, "LT", true);
-        this.mapping.buttons.rightTrigger = new GamepadButton(7, "RT", true);
-
-        // Option buttons
-        this.mapping.buttons.option = new GamepadButton(8, "Option");
-        this.mapping.buttons.menu = new GamepadButton(9, "Menu");
-        this.mapping.buttons.home = new GamepadButton(16, "Home");
-
-        // Pad
-        this.mapping.buttons.up = new GamepadButton(12, "up");
-        this.mapping.buttons.down = new GamepadButton(13, "down");
-        this.mapping.buttons.left = new GamepadButton(14, "left");
-        this.mapping.buttons.right = new GamepadButton(15, "right");
-
-        // Joysticks
-        this.mapping.buttons.joystickLeft = new GamepadButton(
-            10,
-            "joystickLeft"
-        );
-        this.mapping.buttons.joystickRight = new GamepadButton(
-            11,
-            "joystickRight"
-        );
-
-        // Events
-        for (const _buttonKey in this.mapping.buttons) {
-            const button = this.mapping.buttons[_buttonKey];
-
-            button.on("pressed", (_index, _name) => {
-                console.log("pressed", _index, _name);
-            });
-
-            button.on("unpressed", (_index, _name) => {
-                console.log("unpressed", _index, _name);
-            });
-
-            button.on("pressureChanged", (_index, _name, _pressure) => {
-                console.log("pressureChanged", _index, _name, _pressure);
-            });
-        }
-
-        /**
-         * Joysticks
-         */
-
-        this.mapping.joysticks = {};
-        this.mapping.joysticks.left = new GamepadJoystick(0, "left", 4);
+        this.setInputs();
     }
 
     setConnection() {
@@ -91,28 +25,89 @@ export default class Gamepad extends EventEmitter {
         });
     }
 
+    setInputs() {
+        this.inputs = {};
+        /**
+         * Buttons
+         */
+        this.inputs.all = [
+            /**
+             * Buttons
+             */
+            // Left buttons
+            new GamepadButton(0, "buttonA"),
+            new GamepadButton(1, "buttonB"),
+            new GamepadButton(2, "buttonX"),
+            new GamepadButton(3, "buttonY"),
+            // Back buttons
+            new GamepadButton(4, "buttonLB"),
+            new GamepadButton(5, "buttonRB"),
+            new GamepadButton(6, "buttonLT", true),
+            new GamepadButton(7, "buttonRT", true),
+            // Special buttons
+            new GamepadButton(8, "buttonOption"),
+            new GamepadButton(9, "buttonMenu"),
+            new GamepadButton(16, "buttonHome"),
+            // Pad
+            new GamepadButton(12, "buttonUp"),
+            new GamepadButton(13, "buttonDown"),
+            new GamepadButton(14, "buttonLeft"),
+            new GamepadButton(15, "buttonRight"),
+            // Joysticks
+            new GamepadButton(10, "buttonJoystickLeft"),
+            new GamepadButton(11, "buttonJoystickRight"),
+            /**
+             * Joysticks
+             */
+            new GamepadJoystick(0, "joystickLeft", 8),
+            new GamepadJoystick(1, "joystickRight", 8),
+        ];
+
+        /**
+         * Save
+         */
+        for (const _input of this.inputs.all) {
+            this.inputs[_input.name] = _input;
+        }
+
+        /**
+         * Events
+         */
+        for (const _input of this.inputs.all) {
+            if (_input.type === "button") {
+                _input.on("pressed", (_index, _name) => {
+                    console.log("pressed", _index, _name);
+                });
+                _input.on("unpressed", (_index, _name) => {
+                    console.log("unpressed", _index, _name);
+                });
+                _input.on("pressureChanged", (_index, _name, _pressure) => {
+                    console.log("pressureChanged", _index, _name, _pressure);
+                });
+            } else if (_input.type === "joystick") {
+                _input.on("started", (_index, _name) => {
+                    console.log("started", _index, _name);
+                });
+                _input.on("ended", (_index, _name) => {
+                    console.log("ended", _index, _name);
+                });
+                _input.on("changed", (_index, _name) => {
+                    console.log("changed", _input.rotation);
+                });
+            }
+        }
+    }
+
     update() {
         // No gamepad connected
         if (!this.connected) return;
 
+        // Retrieve the state
         const instanceState = navigator.getGamepads()[0];
-        // console.log(instanceState.buttons)
 
-        // Buttons
-        for (const _buttonKey in this.mapping.buttons) {
-            const button = this.mapping.buttons[_buttonKey];
-            button.update(instanceState);
-        }
-        // instanceState.buttons.forEach((_button, _index) => {
-        //     if (_button.pressed) {
-        //         console.log(_button.value);
-        //     }
-        // });
-
-        // Joysticks
-        for (const _joystickKey in this.mapping.joysticks) {
-            const joystick = this.mapping.joysticks[_joystickKey];
-            joystick.update(instanceState);
+        // Update inputs
+        for (const _input of this.inputs.all) {
+            _input.update(instanceState);
         }
     }
 }

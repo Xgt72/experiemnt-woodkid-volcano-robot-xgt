@@ -10,6 +10,7 @@ export default class GamepadButton extends EventEmitter {
         this.hasPressure = _hasPressure;
 
         // Setup
+        this.type = "button";
         this.pressed = false;
     }
 
