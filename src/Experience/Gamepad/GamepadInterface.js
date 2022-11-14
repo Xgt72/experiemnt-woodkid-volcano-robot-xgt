@@ -14,6 +14,7 @@ export default class GamepadInterface {
 
     setInputs() {
         for (const _input of this.inputs.all) {
+            // Element
             const inputElement = document.createElement("div");
             inputElement.classList.add(
                 "input",
@@ -22,12 +23,29 @@ export default class GamepadInterface {
             );
             this.elements.container.appendChild(inputElement);
 
-            _input.on("pressed", () => {
-                inputElement.classList.add("is-active");
-            });
-            _input.on("unpressed", () => {
-                inputElement.classList.remove("is-active");
-            });
+            if (_input.type === "button") {
+                // Fill element
+                const fillElement = document.createElement("div");
+                fillElement.classList.add("fill");
+                inputElement.appendChild(fillElement);
+
+                _input.on("pressed", () => {
+                    inputElement.classList.add("is-active");
+                });
+                _input.on("unpressed", () => {
+                    inputElement.classList.remove("is-active");
+                });
+                _input.on("pressureChanged", (_index, _name, _value) => {
+                    fillElement.style.transform = `scaleY(${_value})`;
+                });
+            }
+
+            if (_input.type === "joystick") {
+                // Inner element
+                const innerElement = document.createElement("div");
+                innerElement.classList.add("inner");
+                inputElement.appendChild(innerElement);
+            }
         }
     }
 }
