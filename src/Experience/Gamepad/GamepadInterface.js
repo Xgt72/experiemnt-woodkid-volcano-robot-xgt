@@ -29,6 +29,7 @@ export default class GamepadInterface {
                 fillElement.classList.add("fill");
                 inputElement.appendChild(fillElement);
 
+                // Listen to events and update thye DOM
                 _input.on("pressed", () => {
                     inputElement.classList.add("is-active");
                 });
@@ -41,10 +42,22 @@ export default class GamepadInterface {
             }
 
             if (_input.type === "joystick") {
-                // Inner element
-                const innerElement = document.createElement("div");
-                innerElement.classList.add("inner");
-                inputElement.appendChild(innerElement);
+                // Tip element
+                const tipElement = document.createElement("div");
+                tipElement.classList.add("tip");
+                inputElement.appendChild(tipElement);
+
+                // Listen to events and update thye DOM
+                _input.on(
+                    "changed",
+                    (_index, _name, _x, _y, _distance, _rotation) => {
+                        const x = _x * 50;
+                        const y = _y * 50;
+
+                        tipElement.style.transform = `translate(${x}%, ${y}%)`;
+                        console.log(x, y, _distance, _rotation);
+                    }
+                );
             }
         }
     }

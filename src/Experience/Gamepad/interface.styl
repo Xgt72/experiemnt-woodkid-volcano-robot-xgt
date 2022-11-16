@@ -7,9 +7,11 @@ $height = 400px
     left 0
     width $width
     height $height
-    border 1px solid #ffffff
+    // border 1px solid #ffffff
 
     .input
+
+        // Is button
         &.is-button
             position absolute
             top 0
@@ -130,9 +132,34 @@ $height = 400px
                 width calc(100% + 2px)
                 height calc(100% + 2px)
                 background #ffffff
-                opacity 0.2
+                opacity 0
                 // border-radius 50%
                 transition-duration 0.25s
                 transition-property opacity
                 will-change opacity
                 transform-origin bottom center
+
+        // Is joystick
+        &.is-joystick
+            position absolute
+            top 0
+            left 0
+            width 10%
+            aspect-ratio 1 / 1
+            border-radius 50%
+            border 2px solid #ffffff
+            transform translate(-50%, -50%)
+            overflow hidden
+
+            .tip
+                position absolute
+                top 25%
+                left 25%
+                width 50%
+                aspect-ratio 1
+                border-radius 50%
+                border 2px solid #ffffff
+
+            &.is-joystickLeft
+                top calc(50% + 0%)
+                left calc(50% - 25%)

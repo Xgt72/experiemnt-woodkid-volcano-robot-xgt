@@ -75,29 +75,29 @@ export default class Gamepad extends EventEmitter {
         /**
          * Events
          */
-        for (const _input of this.inputs.all) {
-            if (_input.type === "button") {
-                _input.on("pressed", (_index, _name) => {
-                    console.log("pressed", _index, _name);
-                });
-                _input.on("unpressed", (_index, _name) => {
-                    console.log("unpressed", _index, _name);
-                });
-                _input.on("pressureChanged", (_index, _name, _pressure) => {
-                    console.log("pressureChanged", _index, _name, _pressure);
-                });
-            } else if (_input.type === "joystick") {
-                _input.on("started", (_index, _name) => {
-                    console.log("started", _index, _name);
-                });
-                _input.on("ended", (_index, _name) => {
-                    console.log("ended", _index, _name);
-                });
-                _input.on("changed", (_index, _name) => {
-                    console.log("changed", _input.rotation);
-                });
-            }
-        }
+        // for (const _input of this.inputs.all) {
+        //     if (_input.type === "button") {
+        //         _input.on("pressed", (_index, _name) => {
+        //             console.log("pressed", _index, _name);
+        //         });
+        //         _input.on("unpressed", (_index, _name) => {
+        //             console.log("unpressed", _index, _name);
+        //         });
+        //         _input.on("pressureChanged", (_index, _name, _pressure) => {
+        //             console.log("pressureChanged", _index, _name, _pressure);
+        //         });
+        //     } else if (_input.type === "joystick") {
+        //         _input.on("started", (_index, _name) => {
+        //             console.log("started", _index, _name);
+        //         });
+        //         _input.on("ended", (_index, _name) => {
+        //             console.log("ended", _index, _name);
+        //         });
+        //         _input.on("changed", (_index, _name) => {
+        //             console.log("changed", _input.rotation);
+        //         });
+        //     }
+        // }
     }
 
     setInterface() {
