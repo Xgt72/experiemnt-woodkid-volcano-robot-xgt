@@ -61,7 +61,14 @@ export default class GamepadJoystick extends EventEmitter {
                 this.rotation = fixedRotation;
 
                 // Trigger
-                this.trigger("changed", [this.index, this.name]);
+                this.trigger("changed", [
+                    this.index,
+                    this.name,
+                    this.x,
+                    this.y,
+                    this.distance,
+                    this.rotation,
+                ]);
             }
         } else {
             this.x = x;

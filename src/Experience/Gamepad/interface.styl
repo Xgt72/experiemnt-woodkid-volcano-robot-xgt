@@ -1,0 +1,180 @@
+$width = 600px
+$height = 400px
+
+.gamepad-interface
+    position fixed
+    top 0
+    left 0
+    width $width
+    height $height
+    // border 1px solid #ffffff
+
+    .input
+
+        // Is button
+        &.is-button
+            position absolute
+            top 0
+            left 0
+            width 5%
+            aspect-ratio 1 / 1
+            border-radius 50%
+            border 2px solid #ffffff
+            transform translate(-50%, -50%)
+            overflow hidden
+
+            // Right buttons
+            &.is-buttonB
+                top: calc(50% + 0%)
+                left calc(50% + 25%)
+                transform translate(-50%, -50%) translate(100%, 0%)
+
+            &.is-buttonY
+                top: calc(50% + 0%)
+                left calc(50% + 25%)
+                transform translate(-50%, -50%) translate(0%, -100%)
+            
+            &.is-buttonX
+                top: calc(50% + 0%)
+                left calc(50% + 25%)
+                transform translate(-50%, -50%) translate(-100%, 0%)
+            
+            &.is-buttonA
+                top: calc(50% + 0%)
+                left calc(50% + 25%)
+                transform translate(-50%, -50%) translate(0%, 100%)
+            
+            // Pad buttons
+            &.is-buttonRight
+                top: calc(50% + 0% + 20%)
+                left calc(50% - 25% + 8%)
+                transform translate(-50%, -50%) translate(100%, 0%)
+
+            &.is-buttonUp
+                top: calc(50% + 0% + 20%)
+                left calc(50% - 25% + 8%)
+                transform translate(-50%, -50%) translate(0%, -100%)
+            
+            &.is-buttonLeft
+                top: calc(50% + 0% + 20%)
+                left calc(50% - 25% + 8%)
+                transform translate(-50%, -50%) translate(-100%, 0%)
+            
+            &.is-buttonDown
+                top: calc(50% + 0% + 20%)
+                left calc(50% - 25% + 8%)
+                transform translate(-50%, -50%) translate(0%, 100%)
+
+            // Back buttons
+            &.is-buttonLB
+                top calc(50% + 0% - 20%)
+                left calc(50% - 25%)
+                transform translate(-50%, - 50%)
+                border-radius 5px
+                border-bottom-left-radius 50%
+                width 15%
+                aspect-ratio 3
+
+            &.is-buttonLT
+                top calc(50% + 0% - 35%)
+                left calc(50% - 25%)
+                transform translate(-50%, - 50%) translate(-25%, 0%)
+                border-radius 5px
+                border-top-left-radius 70%
+                width 10%
+                aspect-ratio 0.7
+
+            &.is-buttonRB
+                top calc(50% + 0% - 20%)
+                left calc(50% + 25%)
+                transform translate(-50%, - 50%)
+                border-radius 5px
+                border-bottom-right-radius 50%
+                width 15%
+                aspect-ratio 3
+
+            &.is-buttonRT
+                top calc(50% + 0% - 35%)
+                left calc(50% + 25%)
+                transform translate(-50%, - 50%) translate(25%, 0%)
+                border-radius 5px
+                border-top-right-radius 70%
+                width 10%
+                aspect-ratio 0.7
+
+            // Special buttons
+            &.is-buttonOption
+                top calc(50% + 0%)
+                left calc(50% - 8%)
+                width: 4%
+
+            &.is-buttonMenu
+                top calc(50% + 0%)
+                left calc(50% + 8%)
+                width: 4%
+
+            &.is-buttonHome
+                top calc(50% + 0% - 10%)
+                left calc(50% + 0%)
+                width: 8%
+
+            // Joysticks buttons
+            &.is-buttonJoystickLeft
+                top calc(50% + 0%)
+                left calc(50% - 25%)
+                width 10%
+            
+            &.is-buttonJoystickRight
+                top calc(50% + 20%)
+                left calc(50% + 25% - 8%)
+                width 10%
+
+            // Is active
+            &.is-active
+                .fill
+                    opacity 1
+                    transition-duration 0s
+
+            .fill
+                content ""
+                position absolute
+                top -1px
+                left -1px
+                width calc(100% + 2px)
+                height calc(100% + 2px)
+                background #ffffff
+                opacity 0
+                // border-radius 50%
+                transition-duration 0.25s
+                transition-property opacity
+                will-change opacity
+                transform-origin bottom center
+
+        // Is joystick
+        &.is-joystick
+            position absolute
+            top 0
+            left 0
+            width 10%
+            aspect-ratio 1 / 1
+            border-radius 50%
+            border 2px solid #ffffff
+            transform translate(-50%, -50%)
+            overflow hidden
+
+            .tip
+                position absolute
+                top 25%
+                left 25%
+                width 50%
+                aspect-ratio 1
+                border-radius 50%
+                border 2px solid #ffffff
+
+            &.is-joystickLeft
+                top calc(50% + 0%)
+                left calc(50% - 25%)
+
+            &.is-joystickRight
+                top calc(50% + 20%)
+                left calc(50% + 25% - 8%)
