@@ -36,9 +36,12 @@ export default class GamepadInterface {
                 _input.on("unpressed", () => {
                     inputElement.classList.remove("is-active");
                 });
-                _input.on("pressureChanged", (_index, _name, _value) => {
-                    fillElement.style.transform = `scaleY(${_value})`;
-                });
+
+                if (_input.hasPressure) {
+                    _input.on("pressureChanged", (_index, _name, _value) => {
+                        fillElement.style.transform = `scaleY(${_value})`;
+                    });
+                }
             }
 
             if (_input.type === "joystick") {
@@ -55,9 +58,12 @@ export default class GamepadInterface {
                         const y = _y * 50;
 
                         tipElement.style.transform = `translate(${x}%, ${y}%)`;
-                        console.log(x, y, _distance, _rotation);
                     }
                 );
+
+                _input.on("ended", () => {
+                    tipElement.style.transform = null;
+                });
             }
         }
     }

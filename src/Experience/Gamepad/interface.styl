@@ -46,23 +46,23 @@ $height = 400px
             
             // Pad buttons
             &.is-buttonRight
-                top: calc(50% + 0% + 25%)
-                left calc(50% - 25% + 10%)
+                top: calc(50% + 0% + 20%)
+                left calc(50% - 25% + 8%)
                 transform translate(-50%, -50%) translate(100%, 0%)
 
             &.is-buttonUp
-                top: calc(50% + 0% + 25%)
-                left calc(50% - 25% + 10%)
+                top: calc(50% + 0% + 20%)
+                left calc(50% - 25% + 8%)
                 transform translate(-50%, -50%) translate(0%, -100%)
             
             &.is-buttonLeft
-                top: calc(50% + 0% + 25%)
-                left calc(50% - 25% + 10%)
+                top: calc(50% + 0% + 20%)
+                left calc(50% - 25% + 8%)
                 transform translate(-50%, -50%) translate(-100%, 0%)
             
             &.is-buttonDown
-                top: calc(50% + 0% + 25%)
-                left calc(50% - 25% + 10%)
+                top: calc(50% + 0% + 20%)
+                left calc(50% - 25% + 8%)
                 transform translate(-50%, -50%) translate(0%, 100%)
 
             // Back buttons
@@ -118,6 +118,17 @@ $height = 400px
                 left calc(50% + 0%)
                 width: 8%
 
+            // Joysticks buttons
+            &.is-buttonJoystickLeft
+                top calc(50% + 0%)
+                left calc(50% - 25%)
+                width 10%
+            
+            &.is-buttonJoystickRight
+                top calc(50% + 20%)
+                left calc(50% + 25% - 8%)
+                width 10%
+
             // Is active
             &.is-active
                 .fill
@@ -163,3 +174,7 @@ $height = 400px
             &.is-joystickLeft
                 top calc(50% + 0%)
                 left calc(50% - 25%)
+
+            &.is-joystickRight
+                top calc(50% + 20%)
+                left calc(50% + 25% - 8%)
