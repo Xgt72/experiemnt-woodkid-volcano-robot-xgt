@@ -9,6 +9,7 @@ specifiers:
   css-loader: ^5.2.6
   file-loader: ^6.2.0
   glslify-loader: ^2.0.0
+  gsap: ^3.11.3
   html-loader: ^2.1.2
   html-webpack-plugin: ^5.3.2
   mini-css-extract-plugin: ^2.1.0
@@ -34,6 +35,7 @@ dependencies:
   css-loader: 5.2.7_webpack@5.74.0
   file-loader: 6.2.0_webpack@5.74.0
   glslify-loader: 2.0.0
+  gsap: 3.11.3
   html-loader: 2.1.2_webpack@5.74.0
   html-webpack-plugin: 5.5.0_webpack@5.74.0
   mini-css-extract-plugin: 2.6.1_webpack@5.74.0
@@ -2995,6 +2997,10 @@ packages:
 
   /graceful-fs/4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
+    dev: false
+
+  /gsap/3.11.3:
+    resolution: {integrity: sha512-xc/iIJy+LWiMbRa4IdMtdnnKa/7PXEK6NNzV71gdOYUVeTZN7UWnLU0fB7Hi1iwiz4ZZoYkBZPPYGg+2+zzFHA==}
     dev: false
 
   /handle-thing/2.0.1:
