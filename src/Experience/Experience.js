@@ -32,8 +32,8 @@ export default class Experience {
         this.setCamera();
         this.setRenderer();
         this.setResources();
-        this.setWorld();
         this.setGamepad();
+        this.setWorld();
 
         this.sizes.on("resize", () => {
             this.resize();
@@ -101,9 +101,9 @@ export default class Experience {
     setGamepad() {
         this.gamepad = new Gamepad();
 
-        this.gamepad.inputs.buttonA.on("pressed", () => {
-            console.log("yup");
-        });
+        // this.gamepad.inputs.buttonA.on("pressed", () => {
+        //     console.log("yup");
+        // });
 
         // this.gamepad.on("joystickChanged", (_name) => {
         //     if (_name === "joystickLeft") {
