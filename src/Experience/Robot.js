@@ -7,6 +7,9 @@ export default class Robot {
         this.config = this.experience.config;
         this.scene = this.experience.scene;
         this.gamepad = this.experience.gamepad;
+        this.resources = this.experience.resources;
+
+        console.log(this.resources.items.robotModel);
 
         // this.resources.items.lennaTexture.encoding = THREE.sRGBEncoding;
         this.cube = new THREE.Mesh(

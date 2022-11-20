@@ -104,10 +104,6 @@ export default class Gamepad extends EventEmitter {
         this.interface = new GamepadInterface(this.inputs);
     }
 
-    setInterface() {
-        this.interface = new GamepadInterface();
-    }
-
     update() {
         // No gamepad connected
         if (!this.connected) return;
