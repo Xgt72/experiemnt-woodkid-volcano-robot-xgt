@@ -65,9 +65,8 @@ export default class Robot {
 
         this.model.shoulders.easedValue +=
             (this.model.shoulders.value - this.model.shoulders.easedValue) *
-            0.005 *
+            0.002 *
             this.time.delta;
-        0.02;
 
         // Update objects
         for (const _object of this.model.shoulders.objects) {

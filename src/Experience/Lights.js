@@ -15,8 +15,8 @@ export default class Lights {
     }
 
     setPointLight() {
-        this.pointLight = new THREE.PointLight(0xffffff, 10);
-        this.pointLight.position.z = 5;
+        this.pointLight = new THREE.PointLight(0xffffff, 20, 0, 2);
+        this.pointLight.position.z = 4;
         this.scene.add(this.pointLight);
     }
 }
