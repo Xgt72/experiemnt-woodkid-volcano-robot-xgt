@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import Robot from "./Robot";
+import Lights from "./Lights";
 
 export default class World {
     constructor(_options) {
@@ -13,12 +14,17 @@ export default class World {
             if (_group.name === "base") {
                 // this.setDummy();
                 this.setRobot();
+                this.setLights();
             }
         });
     }
 
     setRobot() {
         this.robot = new Robot();
+    }
+
+    setLights() {
+        this.lights = new Lights();
     }
 
     resize() {}

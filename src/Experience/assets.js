@@ -1,10 +1,14 @@
 export default [
     {
-        name: 'base',
+        name: "base",
         data: {},
-        items:
-        [
-            { name: 'lennaTexture', source: '/assets/lenna.png', type: 'texture' },
-        ]
-    }
-]
+        items: [
+            {
+                name: "lennaTexture",
+                source: "/assets/lenna.png",
+                type: "texture",
+            },
+            { name: "robotModel", source: "/assets/robot.glb" },
+        ],
+    },
+];
