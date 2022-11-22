@@ -14,14 +14,25 @@ export default class Robot {
 
     setModel() {
         this.model = {};
-        this.model.group = this.resources.items.robotModel.scene;
 
+        // Add the model
+        this.model.group = this.resources.items.robotModel.scene;
+        this.scene.add(this.model.group);
+
+        // Parse the differents parts
         this.model.parts = [
             {
                 regex: /^shoulder/,
                 name: "shoulders",
                 objects: [],
-                axe: "x",
+                value: 0,
+                easedValue: 0,
+                directionMultiplier: 1,
+            },
+            {
+                regex: /^upperArm/,
+                name: "upperArms",
+                objects: [],
                 value: 0,
                 easedValue: 0,
                 directionMultiplier: 1,
@@ -44,34 +55,53 @@ export default class Robot {
             }
         });
 
+        // Shoulders
         this.gamepad.inputs.buttonB.on("pressed", () => {
             this.model.shoulders.directionMultiplier *= -1;
         });
 
-        this.scene.add(this.model.group);
+        // Upper arms
+        this.gamepad.inputs.buttonA.on("pressed", () => {
+            this.model.upperArms.directionMultiplier *= -1;
+        });
     }
 
     update() {
         /**
          * Parts
          */
-        // Update values
+        // Update shoulders
         if (this.gamepad.inputs.buttonB.pressed) {
             this.model.shoulders.value +=
                 0.002 *
                 this.time.delta *
                 this.model.shoulders.directionMultiplier;
         }
-
         this.model.shoulders.easedValue +=
             (this.model.shoulders.value - this.model.shoulders.easedValue) *
-            0.002 *
+            0.01 *
+            this.time.delta;
+
+        // Update upper arms
+        if (this.gamepad.inputs.buttonA.pressed) {
+            this.model.upperArms.value +=
+                0.002 *
+                this.time.delta *
+                this.model.upperArms.directionMultiplier;
+        }
+        this.model.upperArms.easedValue +=
+            (this.model.upperArms.value - this.model.upperArms.easedValue) *
+            0.01 *
             this.time.delta;
 
         // Update objects
         for (const _object of this.model.shoulders.objects) {
             _object.rotation[_object.userData.axis] =
                 this.model.shoulders.value * _object.userData.multiplier;
+        }
+        for (const _object of this.model.upperArms.objects) {
+            _object.rotation[_object.userData.axis] =
+                this.model.upperArms.value * _object.userData.multiplier;
         }
     }
 }
