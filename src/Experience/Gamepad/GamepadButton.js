@@ -12,6 +12,10 @@ export default class GamepadButton extends EventEmitter {
         // Setup
         this.type = "button";
         this.pressed = false;
+
+        if (this.hasPressure) {
+            this.pressure = 0;
+        }
     }
 
     update(_gamepadState) {
@@ -24,16 +28,21 @@ export default class GamepadButton extends EventEmitter {
             }
 
             if (this.hasPressure) {
+                this.pressure = buttonState.value;
                 this.trigger("pressureChanged", [
                     this.index,
                     this.name,
-                    buttonState.value,
+                    this.pressure,
                 ]);
             }
         } else {
             if (this.pressed) {
                 this.pressed = false;
                 this.trigger("unpressed", [this.index, this.name]);
+
+                if (this.hasPressure) {
+                    this.pressure = 0;
+                }
             }
         }
     }
