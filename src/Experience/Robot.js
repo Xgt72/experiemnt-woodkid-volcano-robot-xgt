@@ -14,23 +14,74 @@ export default class Robot {
 
     setModel() {
         this.model = {};
-        this.model.group = this.resources.items.robotModel.scene;
 
+        // Add the model
+        this.model.group = this.resources.items.robotModel.scene;
+        this.scene.add(this.model.group);
+
+        // Parse the differents parts
         this.model.parts = [
             {
+                type: "toggle",
                 regex: /^shoulder/,
                 name: "shoulders",
                 objects: [],
-                axe: "x",
+                speed: 0.002,
+                easing: 0.01,
                 value: 0,
                 easedValue: 0,
                 directionMultiplier: 1,
+                inputName: "buttonB",
+            },
+            {
+                type: "toggle",
+                regex: /^upperArm/,
+                name: "upperArms",
+                objects: [],
+                speed: 0.002,
+                easing: 0.01,
+                value: 0,
+                easedValue: 0,
+                directionMultiplier: 1,
+                inputName: "buttonX",
+            },
+            {
+                type: "toggle",
+                regex: /^elbow/,
+                name: "elbows",
+                objects: [],
+                speed: 0.002,
+                easing: 0.01,
+                value: 0,
+                easedValue: 0,
+                directionMultiplier: 1,
+                inputName: "buttonA",
+            },
+            {
+                type: "toggle",
+                regex: /^forearm/,
+                name: "forearms",
+                objects: [],
+                speed: 0.002,
+                easing: 0.01,
+                value: 0,
+                easedValue: 0,
+                directionMultiplier: 1,
+                inputName: "buttonY",
+            },
+            {
+                type: "pressure",
+                regex: /^clamp/,
+                name: "clamps",
+                objects: [],
+                speed: 0.002,
+                easing: 0.01,
+                value: 0,
+                easedValue: 0,
+                directionMultiplier: 1,
+                inputName: "buttonRT",
             },
         ];
-
-        for (const _part of this.model.parts) {
-            this.model[_part.name] = _part;
-        }
 
         this.model.group.traverse((_child) => {
             if (_child instanceof THREE.Object3D) {
@@ -44,34 +95,53 @@ export default class Robot {
             }
         });
 
-        this.gamepad.inputs.buttonB.on("pressed", () => {
-            this.model.shoulders.directionMultiplier *= -1;
-        });
+        for (const _part of this.model.parts) {
+            // Save as property
+            this.model[_part.name] = _part;
 
-        this.scene.add(this.model.group);
+            if (_part.type === "toggle") {
+                // Input pressed event
+                this.gamepad.inputs[_part.inputName].on("pressed", () => {
+                    _part.directionMultiplier *= -1;
+                });
+            }
+            // } else if(_part.type === "pressure") {
+            //     this.gamepad.inputs[_part.inputName].on("pressureChanged", (_index, _name, _pressure) => {
+            //         _part.directionMultiplier *= -1;
+            //     });
+            // }
+        }
     }
 
     update() {
         /**
          * Parts
          */
-        // Update values
-        if (this.gamepad.inputs.buttonB.pressed) {
-            this.model.shoulders.value +=
-                0.002 *
-                this.time.delta *
-                this.model.shoulders.directionMultiplier;
-        }
 
-        this.model.shoulders.easedValue +=
-            (this.model.shoulders.value - this.model.shoulders.easedValue) *
-            0.002 *
-            this.time.delta;
+        for (const _part of this.model.parts) {
+            // Update toggle values
+            if (_part.type === "toggle") {
+                if (this.gamepad.inputs[_part.inputName].pressed) {
+                    _part.value +=
+                        _part.speed *
+                        this.time.delta *
+                        _part.directionMultiplier;
+                }
+            } else if (_part.type === "pressure") {
+                _part.value = this.gamepad.inputs[_part.inputName].pressure;
+            }
 
-        // Update objects
-        for (const _object of this.model.shoulders.objects) {
-            _object.rotation[_object.userData.axis] =
-                this.model.shoulders.value * _object.userData.multiplier;
+            _part.easedValue +=
+                (_part.value - _part.easedValue) *
+                _part.easing *
+                this.time.delta;
+
+            // Update objects
+            for (const _object of _part.objects) {
+                _object.rotation[_object.userData.axis] =
+                    _part.value * _object.userData.multiplier;
+            }
         }
+        // console.log(this.gamepad.inputs.buttonRT.pressure);
     }
 }
