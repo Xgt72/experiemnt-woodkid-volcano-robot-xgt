@@ -32,6 +32,8 @@ export default class Robot {
                 value: 0,
                 easedValue: 0,
                 directionMultiplier: 1,
+                min: -Infinity,
+                max: Infinity,
                 inputName: "buttonB",
             },
             {
@@ -44,6 +46,8 @@ export default class Robot {
                 value: 0,
                 easedValue: 0,
                 directionMultiplier: 1,
+                min: -Infinity,
+                max: Infinity,
                 inputName: "buttonX",
             },
             {
@@ -56,6 +60,8 @@ export default class Robot {
                 value: 0,
                 easedValue: 0,
                 directionMultiplier: 1,
+                min: -Math.PI * 0.75,
+                max: 0,
                 inputName: "buttonA",
             },
             {
@@ -68,6 +74,8 @@ export default class Robot {
                 value: 0,
                 easedValue: 0,
                 directionMultiplier: 1,
+                min: -Infinity,
+                max: Infinity,
                 inputName: "buttonY",
             },
             // Button pressure
@@ -138,6 +146,11 @@ export default class Robot {
                         _part.speed *
                         this.time.delta *
                         _part.directionMultiplier;
+
+                    _part.value = Math.min(
+                        Math.max(_part.value, _part.min),
+                        _part.max
+                    );
                 }
             } else if (_part.type === "buttonPressure") {
                 _part.value = this.gamepad.inputs[_part.inputName].pressure;
