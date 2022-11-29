@@ -21,8 +21,9 @@ export default class Robot {
 
         // Parse the differents parts
         this.model.parts = [
+            // Button toggle
             {
-                type: "toggle",
+                type: "buttonToggle",
                 regex: /^shoulder/,
                 name: "shoulders",
                 objects: [],
@@ -34,7 +35,7 @@ export default class Robot {
                 inputName: "buttonB",
             },
             {
-                type: "toggle",
+                type: "buttonToggle",
                 regex: /^upperArm/,
                 name: "upperArms",
                 objects: [],
@@ -46,7 +47,7 @@ export default class Robot {
                 inputName: "buttonX",
             },
             {
-                type: "toggle",
+                type: "buttonToggle",
                 regex: /^elbow/,
                 name: "elbows",
                 objects: [],
@@ -58,7 +59,7 @@ export default class Robot {
                 inputName: "buttonA",
             },
             {
-                type: "toggle",
+                type: "buttonToggle",
                 regex: /^forearm/,
                 name: "forearms",
                 objects: [],
@@ -69,17 +70,31 @@ export default class Robot {
                 directionMultiplier: 1,
                 inputName: "buttonY",
             },
+            // Button pressure
             {
-                type: "pressure",
+                type: "buttonPressure",
                 regex: /^clamp/,
                 name: "clamps",
                 objects: [],
-                speed: 0.002,
                 easing: 0.01,
                 value: 0,
                 easedValue: 0,
-                directionMultiplier: 1,
                 inputName: "buttonRT",
+            },
+            // Joystick
+            {
+                type: "joystick",
+                regex: /^torso/,
+                name: "torsos",
+                objects: [],
+                easing: 0.002,
+                x: 0,
+                easedX: 0,
+                y: 0,
+                easedY: 0,
+                value: 0,
+                easedValue: 0,
+                inputName: "joystickLeft",
             },
         ];
 
@@ -99,17 +114,12 @@ export default class Robot {
             // Save as property
             this.model[_part.name] = _part;
 
-            if (_part.type === "toggle") {
+            if (_part.type === "buttonToggle") {
                 // Input pressed event
                 this.gamepad.inputs[_part.inputName].on("pressed", () => {
                     _part.directionMultiplier *= -1;
                 });
             }
-            // } else if(_part.type === "pressure") {
-            //     this.gamepad.inputs[_part.inputName].on("pressureChanged", (_index, _name, _pressure) => {
-            //         _part.directionMultiplier *= -1;
-            //     });
-            // }
         }
     }
 
@@ -119,27 +129,52 @@ export default class Robot {
          */
 
         for (const _part of this.model.parts) {
-            // Update toggle values
-            if (_part.type === "toggle") {
+            /**
+             * Update values
+             */
+            if (_part.type === "buttonToggle") {
                 if (this.gamepad.inputs[_part.inputName].pressed) {
                     _part.value +=
                         _part.speed *
                         this.time.delta *
                         _part.directionMultiplier;
                 }
-            } else if (_part.type === "pressure") {
+            } else if (_part.type === "buttonPressure") {
                 _part.value = this.gamepad.inputs[_part.inputName].pressure;
+            } else if (_part.type === "joystick") {
+                _part.x = this.gamepad.inputs[_part.inputName].x;
+                _part.y = this.gamepad.inputs[_part.inputName].y;
             }
 
-            _part.easedValue +=
-                (_part.value - _part.easedValue) *
-                _part.easing *
-                this.time.delta;
+            /**
+             * Apply easing and update objects
+             */
+            if (
+                _part.type === "buttonToggle" ||
+                _part.type === "buttonPressure"
+            ) {
+                _part.easedValue +=
+                    (_part.value - _part.easedValue) *
+                    _part.easing *
+                    this.time.delta;
 
-            // Update objects
-            for (const _object of _part.objects) {
-                _object.rotation[_object.userData.axis] =
-                    _part.value * _object.userData.multiplier;
+                for (const _object of _part.objects) {
+                    _object.rotation[_object.userData.axis] =
+                        _part.value * _object.userData.multiplier;
+                }
+            } else if (_part.type === "joystick") {
+                _part.easedX +=
+                    (_part.x - _part.easedX) * _part.easing * this.time.delta;
+                _part.easedY +=
+                    (_part.y - _part.easedY) * _part.easing * this.time.delta;
+
+                // Update objects
+                for (const _object of _part.objects) {
+                    _object.rotation.y =
+                        _part.easedX * _object.userData.multiplier;
+                    _object.rotation.x =
+                        _part.easedY * _object.userData.multiplier;
+                }
             }
         }
         // console.log(this.gamepad.inputs.buttonRT.pressure);
